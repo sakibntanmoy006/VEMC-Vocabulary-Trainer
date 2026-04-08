@@ -1,4 +1,5 @@
 # VEMC Vocabulary Trainer 🛡️📖
+
 > *Made for pushing through the grind of vocabulary learning without mercy.*
 
 A fast, highly aesthetic, local-first flashcard application designed to rapidly build English vocabulary. Designed primarily for test prep (IELTS, GRE, SAT, BCS) and language learners, VEMC provides a distraction-free dark mode environment loaded with features that automate the heavy lifting of language acquisition.
@@ -11,7 +12,7 @@ A fast, highly aesthetic, local-first flashcard application designed to rapidly 
 - **Offline Resilience & Caching:** Once a word definition is fetched, it is cached permanently into your browser's `localStorage` ensuring blazing-fast loads and offline capability.
 - **Exam Mode & Analytics:** Challenge yourself with time-attack practice exams. Every attempt is scored and recorded. View historical metrics via beautiful line charts to track improvements.
 - **Pure Vector Design:** Developed using a zero-image, zero-emoji SVG iconography system resulting in an incredibly crisp look on high-DPI displays.
-- **Data Safety Management:** Your data stays perfectly safe on your machine with a native pop-up flow to clear specific histories or restart the trainer. 
+- **Data Safety Management:** Your data stays perfectly safe on your machine with a native pop-up flow to clear specific histories or restart the trainer.
 
 ## ⌨️ Keyboard Shortcuts
 
@@ -37,4 +38,5 @@ Since VEMC relies entirely on frontend web technologies and LocalStorage, there 
 * **Libraries:** None. 100% dependency-free processing and charting algorithms.
 
 ---
+
 Created by **Sakib Nawar Tanmoy** •  [GitHub](https://github.com/sakibntanmoy006) | [LinkedIn](https://www.linkedin.com/in/snt006/)
