@@ -235,6 +235,104 @@
         background: var(--border);
       }
 
+      /* ── Sort dropdown ── */
+      .sort-wrap {
+        position: relative;
+      }
+
+      .sort-menu {
+        position: absolute;
+        top: calc(100% + 6px);
+        right: 0;
+        background: var(--surface);
+        border: 0.5px solid var(--border2);
+        border-radius: 10px;
+        padding: 6px;
+        z-index: 100;
+        min-width: 180px;
+        display: none;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        animation: fadeIn 0.15s ease;
+      }
+
+      .sort-menu.open {
+        display: block;
+      }
+
+      .sort-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        padding: 8px 12px;
+        border: none;
+        background: none;
+        color: var(--text-muted);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 12px;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: all 0.12s;
+        text-align: left;
+      }
+
+      .sort-item:hover {
+        background: var(--surface2);
+        color: var(--text);
+      }
+
+      .sort-item.active {
+        color: var(--gold);
+        background: rgba(201,168,76,0.08);
+      }
+
+      .sort-item svg {
+        flex-shrink: 0;
+      }
+
+      .alpha-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 4px;
+        padding: 8px 6px;
+        border-top: 0.5px solid var(--border);
+        margin-top: 4px;
+      }
+
+      .alpha-btn {
+        width: 100%;
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 0.5px solid var(--border);
+        background: var(--surface2);
+        color: var(--text-muted);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 11px;
+        font-weight: 500;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.12s;
+      }
+
+      .alpha-btn:hover {
+        background: var(--surface3);
+        color: var(--text);
+        border-color: var(--border2);
+      }
+
+      .alpha-btn.active {
+        background: var(--gold-dim);
+        color: var(--gold-light);
+        border-color: var(--gold-dim);
+      }
+
+      .alpha-btn.disabled {
+        opacity: 0.25;
+        cursor: not-allowed;
+      }
+
       /* ── Main stage ── */
       main {
         flex: 1;
@@ -466,6 +564,12 @@
         font-style: italic;
         color: var(--text-muted);
         line-height: 1.6;
+      }
+
+      .example-text b {
+        color: var(--gold);
+        font-weight: 600;
+        font-style: normal;
       }
 
       .separator {
@@ -1588,10 +1692,32 @@
         Unseen
       </button>
       <div class="divider"></div>
-      <button class="btn" id="btnShuffle" onclick="toggleShuffle()" style="display: inline-flex; align-items: center; gap: 6px;">
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
-        Shuffle
-      </button>
+      <div class="sort-wrap">
+        <button class="btn active" id="btnSort" onclick="toggleSortMenu()" style="display: inline-flex; align-items: center; gap: 6px;">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+          <span id="sortLabel">Shuffle</span>
+          <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="sort-menu" id="sortMenu">
+          <button class="sort-item" onclick="setSortMode('az')">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+            A → Z
+          </button>
+          <button class="sort-item" onclick="setSortMode('za')">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+            Z → A
+          </button>
+          <button class="sort-item" onclick="setSortMode('alpha')">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>
+            By Alphabet
+          </button>
+          <button class="sort-item active" onclick="setSortMode('shuffle')">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+            Shuffle
+          </button>
+          <div class="alpha-grid" id="alphaGrid" style="display:none;"></div>
+        </div>
+      </div>
     </div>
 
     <main>
@@ -2072,9 +2198,10 @@
       let progress = JSON.parse(
         localStorage.getItem("lexicon_progress") || "{}",
       );
-      let cache = JSON.parse(localStorage.getItem("lexicon_cache") || "{}");
+      let cache = JSON.parse(localStorage.getItem("lexicon_cache_v9") || "{}");
       let filter = "all";
-      let shuffle = false;
+      let sortMode = "shuffle"; // 'az', 'za', 'alpha', 'shuffle'
+      let selectedAlpha = null;
       let filtered = [];
       let order = [];
       let currentIdx = 0;
@@ -2098,8 +2225,18 @@
           if (filter === "unseen") return !progress[w];
           return true;
         });
-        if (shuffle) {
+        if (sortMode === 'shuffle') {
           order = filtered.map((_, i) => i).sort(() => Math.random() - 0.5);
+        } else if (sortMode === 'az') {
+          order = filtered.map((_, i) => i).sort((a, b) => filtered[a].toLowerCase().localeCompare(filtered[b].toLowerCase()));
+        } else if (sortMode === 'za') {
+          order = filtered.map((_, i) => i).sort((a, b) => filtered[b].toLowerCase().localeCompare(filtered[a].toLowerCase()));
+        } else if (sortMode === 'alpha') {
+          let list = filtered.map((_, i) => i);
+          if (selectedAlpha) {
+            list = list.filter(i => filtered[i].charAt(0).toUpperCase() === selectedAlpha);
+          }
+          order = list.sort((a, b) => filtered[a].toLowerCase().localeCompare(filtered[b].toLowerCase()));
         } else {
           order = filtered.map((_, i) => i);
         }
@@ -2178,7 +2315,7 @@
           const dictRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
           const dictData = dictRes.ok ? await dictRes.json() : [];
 
-          let pos = "", meaning_en = "", example = "", synonyms = [];
+          let pos = "", meaning_en = "", examples = [], synonyms = [];
           if (Array.isArray(dictData) && dictData.length > 0) {
             const entry = dictData[0];
             if (entry.meanings && entry.meanings.length > 0) {
@@ -2186,32 +2323,176 @@
               pos = meaning.partOfSpeech || "";
               if (meaning.definitions && meaning.definitions.length > 0) {
                 meaning_en = meaning.definitions[0].definition || "";
-                example = meaning.definitions[0].example || "";
               }
               synonyms = meaning.synonyms || [];
               if (synonyms.length === 0 && entry.meanings.length > 1) {
                 synonyms = entry.meanings.flatMap(m => m.synonyms || []);
               }
             }
+            entry.meanings?.forEach(m => {
+                m.definitions?.forEach(d => {
+                    if (d.example) examples.push(d.example);
+                });
+            });
+            examples = Array.from(new Set(examples));
           }
 
-          const trRes = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=bn&dt=t&q=${encodeURIComponent(word)}`);
+          const trRes = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=bn&dt=t&dt=bd&dt=ex&dt=ss&q=${encodeURIComponent(word)}`);
           let meaning_bn = "";
+          let gExs = [];
+          let gSynonyms = [];
           if (trRes.ok) {
              const trData = await trRes.json();
-             meaning_bn = trData?.[0]?.[0]?.[0] || "";
+             const primary = trData?.[0]?.[0]?.[0] || "";
+             const alternatives = [];
+             if (trData?.[1] && Array.isArray(trData[1])) {
+                 trData[1].forEach(posData => {
+                     if (posData[1] && Array.isArray(posData[1])) {
+                         alternatives.push(...posData[1]);
+                     }
+                 });
+             }
+             if (alternatives.length > 0) {
+                 meaning_bn = Array.from(new Set(alternatives)).slice(0, 3).join(", ");
+             } else {
+                 meaning_bn = primary;
+             }
+
+             // Extract examples from Google Translate (position 13 in the response array)
+             if (Array.isArray(trData[13])) {
+                 trData[13].forEach(group => {
+                     if (Array.isArray(group)) {
+                         group.forEach(item => {
+                             if (Array.isArray(item) && typeof item[0] === 'string') {
+                                 gExs.push(item[0].trim());
+                             }
+                         });
+                     }
+                 });
+             }
+
+             // Extract synonyms from Google Translate (position 11 = dt=ss)
+             if (Array.isArray(trData[11])) {
+                 // Collect synonym groups with their POS, sorted by group size (largest first for most common synonyms)
+                 let allSynGroups = [];
+                 trData[11].forEach(posGroup => {
+                     if (Array.isArray(posGroup) && posGroup.length > 1 && Array.isArray(posGroup[1])) {
+                         const groupPos = posGroup[0] || '';
+                         posGroup[1].forEach(synGroup => {
+                             if (Array.isArray(synGroup) && Array.isArray(synGroup[0])) {
+                                 allSynGroups.push({ pos: groupPos, words: synGroup[0] });
+                             }
+                         });
+                     }
+                 });
+                 // Sort: matching POS first, then by group size (largest = most common)
+                 allSynGroups.sort((a, b) => {
+                     const aMatch = a.pos === pos ? 1 : 0;
+                     const bMatch = b.pos === pos ? 1 : 0;
+                     if (bMatch !== aMatch) return bMatch - aMatch;
+                     return b.words.length - a.words.length;
+                 });
+                 allSynGroups.forEach(g => gSynonyms.push(...g.words));
+             }
+          }
+
+          // Prefer Google Translate synonyms (more contextually accurate)
+          let finalSynonyms = gSynonyms.length > 0 ? gSynonyms : synonyms;
+          // Filter out overly technical/irrelevant terms
+          finalSynonyms = Array.from(new Set(finalSynonyms))
+              .filter(s => s && s.length > 1 && !/^[A-Z]/.test(s)) // remove proper nouns and single chars
+              .slice(0, 4);
+
+          // Collect all examples; prefer Google's contextual sentences first
+          let allEx = [...gExs, ...examples];
+          
+          // Clean up and format each example
+          allEx = allEx
+              .filter(ex => {
+                  if (!ex) return false;
+                  let plain = ex.replace(/<[^>]+>/g, '').trim();
+                  return plain.split(/\s+/).length >= 3;
+              })
+              .map(ex => {
+                  let fEx = ex.trim();
+                  // Capitalize first letter (strip any leading HTML tag first for check)
+                  let leadingTag = '';
+                  if (fEx.startsWith('<')) {
+                      let tagEnd = fEx.indexOf('>');
+                      if (tagEnd !== -1) {
+                          leadingTag = fEx.slice(0, tagEnd + 1);
+                          fEx = fEx.slice(tagEnd + 1);
+                      }
+                  }
+                  fEx = fEx.charAt(0).toUpperCase() + fEx.slice(1);
+                  fEx = leadingTag + fEx;
+                  // Ensure ending punctuation
+                  let plain = fEx.replace(/<[^>]+>/g, '').trim();
+                  if (!/[.!?]$/.test(plain)) fEx += ".";
+                  return fEx;
+              });
+          
+          allEx = Array.from(new Set(allEx.map(e => e.replace(/<[^>]+>/g, '').trim()))).slice(0, 3)
+              .map(plain => {
+                  // Find the original (with <b> tags) if it exists
+                  let orig = [...gExs, ...examples].find(ex => ex && ex.replace(/<[^>]+>/g, '').trim().toLowerCase() === plain.toLowerCase());
+                  if (orig) {
+                      let fEx = orig.trim();
+                      let leadingTag = '';
+                      if (fEx.startsWith('<')) {
+                          let tagEnd = fEx.indexOf('>');
+                          if (tagEnd !== -1) {
+                              leadingTag = fEx.slice(0, tagEnd + 1);
+                              fEx = fEx.slice(tagEnd + 1);
+                          }
+                      }
+                      fEx = fEx.charAt(0).toUpperCase() + fEx.slice(1);
+                      fEx = leadingTag + fEx;
+                      let p = fEx.replace(/<[^>]+>/g, '').trim();
+                      if (!/[.!?]$/.test(p)) fEx += ".";
+                      return fEx;
+                  }
+                  return plain.charAt(0).toUpperCase() + plain.slice(1) + (/[.!?]$/.test(plain) ? '' : '.');
+              });
+          
+          // Highlight the target word in all examples
+          const wLower = word.toLowerCase();
+          const lastChar = wLower.slice(-1);
+          const wordPattern = new RegExp(`\\b(${wLower}(?:${lastChar})?(?:s|es|ed|ing|d|er|tion|ment|ness|ly|ful|ous|ive|able|ible|ence|ance|ity)?)\\b`, 'gi');
+          allEx = allEx.map(ex => {
+              // Only add <b> tags if the word isn't already wrapped
+              if (ex.includes('<b>')) return ex;
+              return ex.replace(wordPattern, '<b>$1</b>');
+          });
+
+          // Fallback: if still no examples, build contextual sentences from definition
+          if (allEx.length === 0) {
+              let w = word.toLowerCase();
+              let wCap = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+              if (pos === 'verb') {
+                  allEx.push(`She decided to <b>${w}</b> the issue before it got worse.`);
+                  allEx.push(`It is important to <b>${w}</b> whenever the situation demands it.`);
+              } else if (pos === 'adjective') {
+                  allEx.push(`The professor described the argument as remarkably <b>${w}</b>.`);
+                  allEx.push(`Her <b>${w}</b> demeanor left a lasting impression on everyone.`);
+              } else if (pos === 'adverb') {
+                  allEx.push(`He spoke <b>${w}</b>, choosing each word with great care.`);
+              } else {
+                  allEx.push(`The concept of <b>${w}</b> was discussed at length during the lecture.`);
+                  allEx.push(`<b>${wCap}</b> is something we encounter more often than we realize.`);
+              }
           }
 
           const parsed = {
             pos: pos,
             meaning_en: meaning_en || "Definition not found.",
             meaning_bn: meaning_bn || "Translation not found.",
-            synonyms: synonyms.slice(0, 4),
-            example: example || "No example available."
+            synonyms: finalSynonyms,
+            examples: allEx
           };
 
           cache[word] = parsed;
-          localStorage.setItem("lexicon_cache", JSON.stringify(cache));
+          localStorage.setItem("lexicon_cache_v9", JSON.stringify(cache));
           renderBack(parsed);
         } catch (e) {
           document.getElementById("backContent").innerHTML =
@@ -2259,8 +2540,12 @@
       <div class="info-val"><div class="synm-wrap">${syns}</div></div>
     </div>
     <div class="info-row">
-      <div class="info-label">Example</div>
-      <div class="info-val example-text">${d.example || "—"}</div>
+      <div class="info-label">Examples</div>
+      <div class="info-val example-text">
+        ${(d.examples && d.examples.length > 0) 
+            ? d.examples.map(ex => `<div style="margin-bottom: 6px;">• ${ex}</div>`).join('')
+            : (d.example && d.example !== "No example available." ? `<div style="margin-bottom: 6px;">• ${d.example}</div>` : "—")}
+      </div>
     </div>`;
       }
 
@@ -2295,16 +2580,69 @@
         renderCard();
       }
 
-      function toggleShuffle() {
-        shuffle = !shuffle;
-        document
-          .getElementById("btnShuffle")
-          .classList.toggle("active", shuffle);
-        buildFiltered();
-        currentIdx = 0;
-        renderCard();
-        showToast(shuffle ? "Shuffle on" : "Shuffle off");
+      function toggleSortMenu() {
+        const menu = document.getElementById('sortMenu');
+        menu.classList.toggle('open');
       }
+
+      function setSortMode(mode) {
+        sortMode = mode;
+        selectedAlpha = null;
+        const labels = { az: 'A → Z', za: 'Z → A', alpha: 'By Alphabet', shuffle: 'Shuffle' };
+        document.getElementById('sortLabel').textContent = labels[mode];
+        document.getElementById('btnSort').classList.toggle('active', mode === 'shuffle');
+
+        // Update active state on menu items
+        document.querySelectorAll('.sort-item').forEach(btn => {
+          const txt = btn.textContent.trim();
+          btn.classList.toggle('active', txt === labels[mode]);
+        });
+
+        // Show/hide alphabet grid
+        const grid = document.getElementById('alphaGrid');
+        if (mode === 'alpha') {
+          grid.style.display = 'grid';
+          buildAlphaGrid();
+        } else {
+          grid.style.display = 'none';
+          document.getElementById('sortMenu').classList.remove('open');
+        }
+
+        currentIdx = 0;
+        buildFiltered();
+        renderCard();
+        if (mode !== 'alpha') showToast('Sorted: ' + labels[mode]);
+      }
+
+      function buildAlphaGrid() {
+        const grid = document.getElementById('alphaGrid');
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        const available = new Set(filtered.map(w => w.charAt(0).toUpperCase()));
+        grid.innerHTML = letters.map(l => {
+          const has = available.has(l);
+          const isActive = selectedAlpha === l;
+          return `<button class="alpha-btn${isActive ? ' active' : ''}${!has ? ' disabled' : ''}" 
+                    onclick="${has ? `selectAlpha('${l}')` : ''}">${l}</button>`;
+        }).join('');
+      }
+
+      function selectAlpha(letter) {
+        selectedAlpha = selectedAlpha === letter ? null : letter;
+        document.getElementById('sortLabel').textContent = selectedAlpha ? `Letter: ${selectedAlpha}` : 'By Alphabet';
+        currentIdx = 0;
+        buildFiltered();
+        renderCard();
+        buildAlphaGrid();
+        showToast(selectedAlpha ? `Showing words starting with ${selectedAlpha}` : 'Showing all alphabets');
+      }
+
+      // Close sort menu when clicking outside
+      document.addEventListener('click', (e) => {
+        const wrap = document.querySelector('.sort-wrap');
+        if (wrap && !wrap.contains(e.target)) {
+          document.getElementById('sortMenu').classList.remove('open');
+        }
+      });
 
       function handleSearch() {
         currentIdx = 0;
