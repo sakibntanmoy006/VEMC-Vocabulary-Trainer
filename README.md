@@ -1,8 +1,8 @@
-# VEMC Vocabulary Trainer 📖
+# VC Vocabulary Trainer 📖
 
 > *Made for pushing through the grind of vocabulary learning without mercy.*
 
-A fast, highly aesthetic, local-first flashcard application designed to rapidly build English vocabulary. Designed primarily for test prep (IELTS, GRE, SAT, BCS) and language learners, VEMC provides a distraction-free dark mode environment loaded with features that automate the heavy lifting of language acquisition.
+A fast, highly aesthetic, local-first flashcard application designed to rapidly build English vocabulary. Designed primarily for test prep (IELTS, GRE, SAT, BCS) and language learners, VC provides a distraction-free dark mode environment loaded with features that automate the heavy lifting of language acquisition.
 
 ## 🌟 Key Features
 
@@ -30,7 +30,7 @@ Speed up your learning by never touching the mouse:
 
 ## 🚀 Getting Started
 
-Since VEMC relies entirely on frontend web technologies and LocalStorage, there is zero setup required.
+Since VC relies entirely on frontend web technologies and LocalStorage, there is zero setup required.
 
 1. Clone or download the repository to your machine.
 2. Double-click `index.html` to open it in any modern web browser (Chrome, Firefox, Safari, Edge).
